@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
+import { getUser } from '../redux/reducer';
 
 class Login extends Component {
     constructor(props){
@@ -16,11 +18,22 @@ class Login extends Component {
 
     login = (e) => {
         e.preventDefault();
+
+        let userObj = {
+            username: this.state.username,
+            age: this.state.age,
+            email: this.state.email
+        }
+
+        // action passes the userObj as the payload that changes redux state
+        this.props.getUser(userObj);
+        // navigate the user to the dashboard page
+        this.props.history.push('/dashboard');
     }
 
     render(){
         const {username, age, email} = this.state;
-
+        // console.log(this.props);
         return (
             <section className='login'>
                 <form className='login-form'>
@@ -34,4 +47,4 @@ class Login extends Component {
     }
 }
 
-export default Login;
+export default connect(null, {getUser})(Login);
